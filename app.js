@@ -48,10 +48,10 @@ const lineMaterial = new THREE.LineBasicMaterial({ color: 0xff0000 });
 const line = new THREE.Line(lineGeometry, lineMaterial);
 scene.add(line);
 
-// 3D Model Loader (replace 'Rabbit.glb' with your file path)
+// 3D Model Loader (ensure 'Rabbit.glb' is in the same folder or adjust the path)
 const loader = new GLTFLoader();
 loader.load(
-  'Rabbit.glb',  // Ensure 'Rabbit.glb' is in the same folder as this HTML and JS file
+  'Rabbit.glb',  // Make sure this path is correct
   function(gltf) {
     gltf.scene.scale.set(0.5, 0.5, 0.5);
     gltf.scene.position.y = -1;
