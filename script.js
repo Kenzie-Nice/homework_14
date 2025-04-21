@@ -16,63 +16,64 @@ document.body.appendChild(renderer.domElement);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
-scene.add(ambientLight);
-
-const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
-directionalLight.position.set(1, 1, 1);
-scene.add(directionalLight);
+scene.add(new THREE.AmbientLight(0xffffff, 0.8));
+const light = new THREE.DirectionalLight(0xffffff, 0.5);
+light.position.set(1, 1, 1);
+scene.add(light);
 
 // Cube
-const cubeGeometry = new THREE.BoxGeometry();
-const cubeMaterial = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
-const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+const cube = new THREE.Mesh(
+  new THREE.BoxGeometry(),
+  new THREE.MeshStandardMaterial({ color: 0x00ff00 })
+);
 cube.position.x = -2;
 scene.add(cube);
 
 // Sphere
-const sphereGeometry = new THREE.SphereGeometry(0.5, 32, 32);
-const sphereMaterial = new THREE.MeshStandardMaterial({ color: 0x0000ff });
-const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+const sphere = new THREE.Mesh(
+  new THREE.SphereGeometry(0.5, 32, 32),
+  new THREE.MeshStandardMaterial({ color: 0x0000ff })
+);
 sphere.position.x = 2;
 scene.add(sphere);
 
 // Line
-const points = [
+const linePoints = [
   new THREE.Vector3(-1, 0, 0),
   new THREE.Vector3(0, 1, 0),
-  new THREE.Vector3(1, 0, 0)
+  new THREE.Vector3(1, 0, 0),
 ];
-const lineGeometry = new THREE.BufferGeometry().setFromPoints(points);
-const lineMaterial = new THREE.LineBasicMaterial({ color: 0xff0000 });
-const line = new THREE.Line(lineGeometry, lineMaterial);
+const line = new THREE.Line(
+  new THREE.BufferGeometry().setFromPoints(linePoints),
+  new THREE.LineBasicMaterial({ color: 0xff0000 })
+);
 scene.add(line);
 
-// 3D Model Loader (Rabbit.glb is in the same folder as index.html)
+// GLTF Model
 const loader = new GLTFLoader();
 loader.load(
-  'Rabbit.glb',  // Model is in the same folder as index.html
-  function(gltf) {
+  './Rabbit.glb',
+  gltf => {
     gltf.scene.scale.set(0.5, 0.5, 0.5);
     gltf.scene.position.y = -1;
     scene.add(gltf.scene);
   },
   undefined,
-  function(error) {
-    console.error('Model loading error:', error);
-  }
+  err => console.error('Model loading error:', err)
 );
 
 // Text
 const fontLoader = new FontLoader();
-fontLoader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', function(font) {
-  const textGeometry = new TextGeometry('Three.js FTW!', {
-    font: font,
+fontLoader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', font => {
+  const textGeo = new TextGeometry('Three.js FTW!', {
+    font,
     size: 0.5,
-    height: 0.1
+    height: 0.1,
   });
-  const textMaterial = new THREE.MeshStandardMaterial({ color: 0xffff00 });
-  const textMesh = new THREE.Mesh(textGeometry, textMaterial);
+  const textMesh = new THREE.Mesh(
+    textGeo,
+    new THREE.MeshStandardMaterial({ color: 0xffff00 })
+  );
   textMesh.position.set(-2, 2, 0);
   scene.add(textMesh);
 });
