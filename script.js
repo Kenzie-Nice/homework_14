@@ -7,10 +7,10 @@ import { TextGeometry } from 'https://cdn.skypack.dev/three@0.152.2/examples/jsm
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x222222);
 
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 camera.position.z = 5;
 
-const renderer = new THREE.WebGLRenderer({antialias: true});
+const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
@@ -48,10 +48,10 @@ const lineMaterial = new THREE.LineBasicMaterial({ color: 0xff0000 });
 const line = new THREE.Line(lineGeometry, lineMaterial);
 scene.add(line);
 
-// 3D Model Loader (ensure 'Rabbit.glb' is in the same folder or adjust the path)
+// 3D Model Loader (Rabbit.glb is in the same folder as index.html)
 const loader = new GLTFLoader();
 loader.load(
-  'Rabbit.glb',  // Make sure this path is correct
+  'Rabbit.glb',  // Model is in the same folder as index.html
   function(gltf) {
     gltf.scene.scale.set(0.5, 0.5, 0.5);
     gltf.scene.position.y = -1;
@@ -89,7 +89,7 @@ function animate() {
 animate();
 
 window.addEventListener('resize', () => {
-  camera.aspect = window.innerWidth/window.innerHeight;
+  camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
