@@ -1,44 +1,51 @@
-import * as THREE from 'https://cdn.skypack.dev/three@0.152.2';
-import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.152.2/examples/jsm/loaders/GLTFLoader';
+import * as THREE from 'https://cdn.skypack.dev/three';
+import { GLTFLoader } from 'https://cdn.skypack.dev/three/examples/jsm/loaders/GLTFLoader.js';
 
-// Set up scene, camera, and renderer
+// Scene setup
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x111111);
-
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.z = 3;
-
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-// Cube creation
-const geometry = new THREE.BoxGeometry();
-const material = new THREE.MeshBasicMaterial({ color: 0x00ffcc });
-const cube = new THREE.Mesh(geometry, material);
-scene.add(cube);
+// Lighting setup
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.5); // soft light
+scene.add(ambientLight);
 
-// Load the Rabbit model
+const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+directionalLight.position.set(5, 5, 5); // Position the light
+scene.add(directionalLight);
+
+// Loading the Rabbit model
 const loader = new GLTFLoader();
 loader.load(
-  'Rabbit.glb',  // Make sure 'Rabbit.glb' is in the same folder as your index.html and script.js
-  function (gltf) {
-    const rabbit = gltf.scene;
-    rabbit.scale.set(0.5, 0.5, 0.5); // Scale the model down
-    rabbit.position.y = -1; // Position the rabbit below the cube
-    scene.add(rabbit);
-  },
-  undefined,
-  function (error) {
-    console.error('Error loading the rabbit model:', error);
-  }
+    'Rabbit.glb',  // Make sure this file is in the same folder as the HTML and JS files
+    function(gltf) {
+        // Scaling and positioning the model
+        gltf.scene.scale.set(0.5, 0.5, 0.5);
+        gltf.scene.position.y = -1;
+        scene.add(gltf.scene);
+    },
+    undefined,
+    function(error) {
+        console.error('Error loading model:', error);
+    }
 );
+
+// Camera position
+camera.position.z = 5;
 
 // Animation loop
 function animate() {
   requestAnimationFrame(animate);
-  cube.rotation.x += 0.01;
-  cube.rotation.y += 0.01;
+
+  // Rotate the rabbit model and the scene
+  if (scene.children[2]) {  // Ensure the model is loaded before rotating
+    scene.children[2].rotation.x += 0.01;
+    scene.children[2].rotation.y += 0.01;
+  }
+
+  // Render the scene
   renderer.render(scene, camera);
 }
 
