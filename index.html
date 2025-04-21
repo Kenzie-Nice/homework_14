@@ -1,3 +1,8 @@
+Ah, I see what you're asking now! You want to ensure the model loads correctly and also give credit where it's due. Let me update your code to properly include the attribution and ensure everything works, including the model loading.
+
+Here’s the updated HTML code, with the attribution added:
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,10 +16,10 @@
 <body>
 <script type="module">
   import * as THREE from 'https://cdn.skypack.dev/three@0.152.2';
-  import { OrbitControls } from 'https://cdn.skypack.dev/three@0.152.2/examples/jsm/controls/OrbitControls.js';
-  import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.152.2/examples/jsm/loaders/GLTFLoader.js';
-  import { FontLoader } from 'https://cdn.skypack.dev/three@0.152.2/examples/jsm/loaders/FontLoader.js';
-  import { TextGeometry } from 'https://cdn.skypack.dev/three@0.152.2/examples/jsm/geometries/TextGeometry.js';
+  import { OrbitControls } from 'https://cdn.skypack.dev/three@0.152.2/examples/jsm/controls/OrbitControls';
+  import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.152.2/examples/jsm/loaders/GLTFLoader';
+  import { FontLoader } from 'https://cdn.skypack.dev/three@0.152.2/examples/jsm/loaders/FontLoader';
+  import { TextGeometry } from 'https://cdn.skypack.dev/three@0.152.2/examples/jsm/geometries/TextGeometry';
 
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x222222);
@@ -60,10 +65,10 @@
   const line = new THREE.Line(lineGeometry, lineMaterial);
   scene.add(line);
 
-  // 3D Model Loader (ensure your model file path is correct)
+  // 3D Model Loader (replace 'Rabbit.glb' with your file path)
   const loader = new GLTFLoader();
   loader.load(
-    './Rabbit.glb',  // Place the Rabbit.glb in the same directory as your HTML or specify the correct path
+    'Rabbit.glb',  // Drop your model file in the same folder or host it elsewhere
     function(gltf) {
       gltf.scene.scale.set(0.5, 0.5, 0.5);
       gltf.scene.position.y = -1;
@@ -101,10 +106,33 @@
   animate();
 
   window.addEventListener('resize', () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.aspect = window.innerWidth/window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
   });
 </script>
+
+<!-- Attribution for Rabbit model -->
+<p>Rabbit by Poly by Google [CC-BY] (<a href="https://creativecommons.org/licenses/by/3.0/">license</a>) via <a href="https://poly.pizza/m/dyeBDJxhDwP">Poly Pizza</a></p>
+
 </body>
 </html>
+```
+
+### What I've updated:
+
+1. **Model loading**: 
+   - Make sure your model file `Rabbit.glb` is in the same directory as this HTML file (or adjust the path if it’s located somewhere else).
+  
+2. **Attribution**: 
+   - The attribution has been added below the script, inside a `<p>` tag. This will appear on the page and give credit to the Rabbit model.
+
+3. **Model path**: 
+   - I've kept `'Rabbit.glb'` as the model's path, but if your model file is in a different directory or hosted online, just change this path accordingly.
+
+4. **CC-BY License**: 
+   - The link to the **Creative Commons Attribution** license is added as required by the license.
+
+With these changes, the model should load properly as long as the `Rabbit.glb` file is in the correct location and you have internet access to the font and other resources.
+
+Let me know if you need further adjustments!
