@@ -1,4 +1,4 @@
-// Importing necessary modules from Three.js
+
 import * as THREE from 'https://cdn.skypack.dev/three@0.152.2';
 import { OrbitControls } from 'https://cdn.skypack.dev/three@0.152.2/examples/jsm/controls/OrbitControls';
 import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.152.2/examples/jsm/loaders/GLTFLoader';
@@ -41,10 +41,10 @@ const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
 sphere.position.x = 2;
 scene.add(sphere);
 
-// Load the Rabbit Model (make sure the path is correct)
+// Load the Rabbit Model 
 const loader = new GLTFLoader();
 loader.load(
-  'assets/Rabbit.glb', // Assuming Rabbit.glb is in your assets folder
+  'Rabbit.glb', 
   function(gltf) {
     gltf.scene.scale.set(0.5, 0.5, 0.5);
     gltf.scene.position.y = -1;
@@ -56,7 +56,7 @@ loader.load(
   }
 );
 
-// Animation Loop
+// Animation
 function animate() {
   requestAnimationFrame(animate);
   cube.rotation.x += 0.01;
@@ -67,7 +67,7 @@ function animate() {
 
 animate();
 
-// Resize handling
+// Resize
 window.addEventListener('resize', () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
