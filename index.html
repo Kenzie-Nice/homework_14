@@ -11,10 +11,10 @@
 <body>
 <script type="module">
   import * as THREE from 'https://cdn.skypack.dev/three@0.152.2';
-  import { OrbitControls } from 'https://cdn.skypack.dev/three@0.152.2/examples/jsm/controls/OrbitControls';
-  import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.152.2/examples/jsm/loaders/GLTFLoader';
-  import { FontLoader } from 'https://cdn.skypack.dev/three@0.152.2/examples/jsm/loaders/FontLoader';
-  import { TextGeometry } from 'https://cdn.skypack.dev/three@0.152.2/examples/jsm/geometries/TextGeometry';
+  import { OrbitControls } from 'https://cdn.skypack.dev/three@0.152.2/examples/jsm/controls/OrbitControls.js';
+  import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.152.2/examples/jsm/loaders/GLTFLoader.js';
+  import { FontLoader } from 'https://cdn.skypack.dev/three@0.152.2/examples/jsm/loaders/FontLoader.js';
+  import { TextGeometry } from 'https://cdn.skypack.dev/three@0.152.2/examples/jsm/geometries/TextGeometry.js';
 
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x222222);
@@ -60,10 +60,10 @@
   const line = new THREE.Line(lineGeometry, lineMaterial);
   scene.add(line);
 
-  // 3D Model Loader (replace 'model.glb' with your file path)
+  // 3D Model Loader (ensure your model file path is correct)
   const loader = new GLTFLoader();
   loader.load(
-    'Rabbit.glb',  // drop your file into the same folder or host it elsewhere
+    './Rabbit.glb',  // Place the Rabbit.glb in the same directory as your HTML or specify the correct path
     function(gltf) {
       gltf.scene.scale.set(0.5, 0.5, 0.5);
       gltf.scene.position.y = -1;
@@ -101,7 +101,7 @@
   animate();
 
   window.addEventListener('resize', () => {
-    camera.aspect = window.innerWidth/window.innerHeight;
+    camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
   });
