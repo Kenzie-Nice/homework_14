@@ -7,73 +7,72 @@ import { TextGeometry } from 'https://cdn.skypack.dev/three@0.152.2/examples/jsm
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x222222);
 
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
 camera.position.z = 5;
 
-const renderer = new THREE.WebGLRenderer({ antialias: true });
+const renderer = new THREE.WebGLRenderer({antialias: true});
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 
-scene.add(new THREE.AmbientLight(0xffffff, 0.8));
-const light = new THREE.DirectionalLight(0xffffff, 0.5);
-light.position.set(1, 1, 1);
-scene.add(light);
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+scene.add(ambientLight);
+
+const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+directionalLight.position.set(1, 1, 1);
+scene.add(directionalLight);
 
 // Cube
-const cube = new THREE.Mesh(
-  new THREE.BoxGeometry(),
-  new THREE.MeshStandardMaterial({ color: 0x00ff00 })
-);
+const cubeGeometry = new THREE.BoxGeometry();
+const cubeMaterial = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
+const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
 cube.position.x = -2;
 scene.add(cube);
 
 // Sphere
-const sphere = new THREE.Mesh(
-  new THREE.SphereGeometry(0.5, 32, 32),
-  new THREE.MeshStandardMaterial({ color: 0x0000ff })
-);
+const sphereGeometry = new THREE.SphereGeometry(0.5, 32, 32);
+const sphereMaterial = new THREE.MeshStandardMaterial({ color: 0x0000ff });
+const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
 sphere.position.x = 2;
 scene.add(sphere);
 
 // Line
-const linePoints = [
+const points = [
   new THREE.Vector3(-1, 0, 0),
   new THREE.Vector3(0, 1, 0),
-  new THREE.Vector3(1, 0, 0),
+  new THREE.Vector3(1, 0, 0)
 ];
-const line = new THREE.Line(
-  new THREE.BufferGeometry().setFromPoints(linePoints),
-  new THREE.LineBasicMaterial({ color: 0xff0000 })
-);
+const lineGeometry = new THREE.BufferGeometry().setFromPoints(points);
+const lineMaterial = new THREE.LineBasicMaterial({ color: 0xff0000 });
+const line = new THREE.Line(lineGeometry, lineMaterial);
 scene.add(line);
 
-// GLTF Model
+// Load GLTF Model
 const loader = new GLTFLoader();
 loader.load(
-  './Rabbit.glb',
-  gltf => {
+  'Rabbit.glb',
+  function (gltf) {
     gltf.scene.scale.set(0.5, 0.5, 0.5);
     gltf.scene.position.y = -1;
     scene.add(gltf.scene);
   },
   undefined,
-  err => console.error('Model loading error:', err)
+  function (error) {
+    console.error('Model loading error:', error);
+  }
 );
 
-// Text
+// Add Text
 const fontLoader = new FontLoader();
-fontLoader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', font => {
-  const textGeo = new TextGeometry('Three.js FTW!', {
-    font,
+fontLoader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', function(font) {
+  const textGeometry = new TextGeometry('Three.js FTW!', {
+    font: font,
     size: 0.5,
-    height: 0.1,
+    height: 0.1
   });
-  const textMesh = new THREE.Mesh(
-    textGeo,
-    new THREE.MeshStandardMaterial({ color: 0xffff00 })
-  );
+  const textMaterial = new THREE.MeshStandardMaterial({ color: 0xffff00 });
+  const textMesh = new THREE.Mesh(textGeometry, textMaterial);
   textMesh.position.set(-2, 2, 0);
   scene.add(textMesh);
 });
@@ -86,9 +85,9 @@ function animate() {
   sphere.rotation.y += 0.02;
   renderer.render(scene, camera);
 }
-
 animate();
 
+// Responsive
 window.addEventListener('resize', () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
